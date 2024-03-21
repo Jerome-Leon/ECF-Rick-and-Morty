@@ -4,6 +4,7 @@
     box-sizing: border-box;
     font-family: 'Bellota Text', display;
     font-weight: 700;
+    list-style-type: none;
 }
 
 body {
@@ -34,8 +35,9 @@ header {
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
+    padding-bottom: 2em;
 }
 
 .img-title {
@@ -48,10 +50,31 @@ header {
     justify-content: center;
 }
 
-.title-randomizer p{
+.title-randomizer p {
     color: #f1f1f1;
     font-size: 5em;
+    letter-spacing: .1em;
+    height: .9em;
+    line-height: 1em;
     font-family: 'Jolly Lodger', display;
+    -webkit-box-reflect: below 1px linear-gradient(#1c1b2900, #1c1b290a);
+    outline: none;
+    animation: animate 10s linear infinite;
+}
+
+@keyframes animate {
+    0%, 18%, 20%, 50.1%, 60%, 65.1%, 80%, 90.1%, 92%{
+        color: #3d3b58;
+        text-shadow: none;
+    }
+    18.1%, 20.1%, 30%, 50%, 60.1%, 65%, 80.1%, 90%, 92.1%, 100%{
+        color: #fff;
+        text-shadow: 0 0 10px #cfff83,
+        0 0 20px #cfff83,
+        0 0 40px #cfff83,
+        0 0 80px #cfff83,
+        0 0 160px #cfff83;
+    }
 }
 
 /* ================ BUTTONS ================ */
@@ -63,23 +86,24 @@ header {
     gap: 3.5rem;
     width: 80%;
     margin: 0 10%;
-    padding-top: 2em;
+    padding: 2em 0;
 }
 
 .switch__buttons #new12,
 .switch__buttons #dead__ones,
 .switch__buttons #living__ones,
 .switch__buttons #unknown__ones {
-    position: relative; /* Ajout pour positionner l'effet de halo */
+    position: relative;
+    /* Ajout pour positionner l'effet de halo */
     width: 9.3em;
-    font-family: 'Jolly Lodger', display; 
+    font-family: 'Jolly Lodger', display;
     letter-spacing: 0.1em;
     font-size: 2em;
-    background-color: #4BAFC6;
+    background: radial-gradient(circle, #4BAFC6, #4BAFC6);
     border-radius: 0.5em;
+    border: solid 3px #fff;
     padding: 0.5em 0;
-    border-style: none;
-    transition: ease .5s;
+    transition: ease 1s;
     cursor: pointer;
 }
 
@@ -105,9 +129,11 @@ header {
     0% {
         box-shadow: 0 0 0 0 rgba(184, 227, 115, 0.7);
     }
+
     50% {
         box-shadow: 0 0 0 20px rgba(184, 227, 115, 0);
     }
+
     100% {
         box-shadow: 0 0 0 0 rgba(184, 227, 115, 0.7);
     }
@@ -117,11 +143,46 @@ header {
 .switch__buttons #dead__ones:hover,
 .switch__buttons #living__ones:hover,
 .switch__buttons #unknown__ones:hover {
-    background-color: #B8E373;
+    background: radial-gradient(circle, #fff, #b7e967);
+    box-shadow: 0 0 20px 15px #cfff83;
     transform: translateY(-3px);
-    transition: ease .5s;
+    transition: ease 1s;
     cursor: pointer;
 }
+
+/* Classe pour l'animation accélérée */
+.switch__buttons #new12.halo-click-animation::after,
+.switch__buttons #dead__ones.halo-click-animation::after,
+.switch__buttons #living__ones.halo-click-animation::after,
+.switch__buttons #unknown__ones.halo-click-animation::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5em;
+    background-color: transparent;
+    border: 2px solid transparent;
+    animation: halo-click 2s infinite ease-out;
+    /* Animation accélérée */
+}
+
+@keyframes halo-click {
+    0% {
+        box-shadow: 0 0 0 0 rgba(184, 227, 115, 0.7);
+    }
+
+    50% {
+        box-shadow: 0 0 0 20px rgba(184, 227, 115, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(184, 227, 115, 0.7);
+    }
+}
+
 
 /* ================ CARDS ================ */
 
@@ -153,7 +214,8 @@ header {
 
 .card__data {
     z-index: 10;
-    width: 280px; /* Largeur initiale */
+    width: 280px;
+    /* Largeur initiale */
     height: 240px;
     background-color: #fffcde;
     padding: 1rem 2rem;
@@ -164,12 +226,14 @@ header {
     left: 0;
     right: 0;
     margin-inline: auto;
-    transition: opacity 1s 1s, width 0.5s ease-in-out; /* Ajout de la transition de largeur */
+    transition: opacity 1s 1s, width 0.5s ease-in-out;
+    /* Ajout de la transition de largeur */
     cursor: pointer;
 }
 
 .card__article:hover .card__data {
-    animation: show-data 1s forwards, expand-width 1s forwards; /* Déclenchement de l'animation de largeur au survol */
+    animation: show-data 1s forwards, expand-width 1s forwards;
+    /* Déclenchement de l'animation de largeur au survol */
 }
 
 .card__article:hover {
@@ -182,7 +246,8 @@ header {
 
 .card__article:not(:hover) .card__data {
     animation: remove-data 1s forwards;
-    transition: width 0.5s ease-in-out; /* Transition pour la largeur lorsque le hover n'est plus là */
+    transition: width 0.5s ease-in-out;
+    /* Transition pour la largeur lorsque le hover n'est plus là */
 }
 
 .card__status {
@@ -220,7 +285,12 @@ header {
 footer {
     width: 100%;
     height: 10em;
-    background-color: #4BAFC6;
+}
+
+.bannerfooter {
+    width: 100%;
+    height: 10em;
+    background-image: url('./IMAGES/Rick-and-Morty_FOOTER.png');
 }
 
 /* ================ ANIMATIONS ================ */
@@ -229,6 +299,7 @@ footer {
     50% {
         transform: translateY(-13rem);
     }
+
     100% {
         transform: translateY(2rem);
     }
@@ -236,10 +307,13 @@ footer {
 
 @keyframes expand-width {
     0% {
-        width: 280px; /* Largeur initiale */
+        width: 280px;
+        /* Largeur initiale */
     }
+
     100% {
-        width: 300px; /* Largeur à la fin de l'animation */
+        width: 300px;
+        /* Largeur à la fin de l'animation */
     }
 }
 
@@ -253,9 +327,11 @@ footer {
     0% {
         transform: translateY(-7rem);
     }
+
     50% {
         transform: translateY(-12rem);
     }
+
     100% {
         transform: translateY(.5rem);
     }
@@ -266,6 +342,7 @@ footer {
         overflow: initial;
         pointer-events: none;
     }
+
     50% {
         overflow: hidden;
     }
@@ -273,15 +350,19 @@ footer {
 
 /* ================ MODAL ================ */
 
+
 .modal__overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Fond sombre */
-    backdrop-filter: blur(5px); /* Effet de flou */
-    -webkit-backdrop-filter: blur(5px); /* Pour les navigateurs WebKit */
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Fond sombre */
+    backdrop-filter: blur(5px);
+    /* Effet de flou */
+    -webkit-backdrop-filter: blur(5px);
+    /* Pour les navigateurs WebKit */
     display: none;
     justify-content: center;
     align-items: center;
@@ -292,10 +373,11 @@ footer {
     background-color: #f1f1f1;
     padding: 2em;
     border-radius: 1em;
-    max-width: 80%;
+    max-width: 365px;
     max-height: 80%;
     overflow-y: auto;
     position: relative;
+    text-align: center;
 }
 
 .modal__header {
@@ -308,25 +390,169 @@ footer {
 
 .modal__close {
     cursor: pointer;
-    font-size: 30px;
+    font-size: 40px;
 }
 
 .modal__body {
-    padding-top: 10px;
+    padding-top: 5px;
 }
 
-.modal__title{
+.modal__title {
     font-family: 'Jolly Lodger', display;
     letter-spacing: .1em;
     font-size: 3em;
 }
 
-.modal__origin, .modal__location, .modal__episodes, .modal__li {
-    font-family: 'Bellota Text', display;
-    font-size: 1em;
-    padding: .2em 0;
+img.modal__img{
+    border-radius: 1em 1em 0 0;
 }
 
-.modal__episodes{
+.modal__origin,
+.modal__location,
+.modal__episodes,
+.modal__li {
+    font-family: 'Bellota Text', display;
+    font-size: 1.1em;
+    padding: .2em 0;
+    cursor: default;
+}
+
+.modal__episodes {
     font-size: 1.5em;
+}
+
+/* ================ MEDIA QUERIES ================ */
+
+@media screen and (max-width: 1720px) {
+    .switch__buttons {
+        width: 50%;
+        margin: 0 25%;
+    }
+
+    header {
+        width: 90%;
+        margin: 0 5%;
+    }
+
+    .title {
+        justify-content: space-evenly;
+    }
+
+    img.portal {
+        width: 20em;
+        padding-top: 2em;
+    }
+
+    .img-title {
+        width: 70%;
+        height: auto;
+    }
+
+    /* Pour les écrans de taille moyenne */
+    @media screen and (max-width: 1430px) {
+        .title {
+            flex-direction: column;
+            /* Changer la direction en colonne */
+            align-items: center;
+            /* Centrer les éléments */
+        }
+
+        .img__randomizer {
+            order: -1;
+            /* Placer cette div en premier */
+            margin-top: 1em;
+            /* Espacement entre les éléments */
+        }
+
+        .portal {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .title-randomizer {
+            margin-top: 1em;
+            /* Espacement entre les éléments */
+        }
+    }
+
+
+    @media screen and (max-width: 1150px) {
+
+        .card__container {
+            width: 100%;
+            gap: 3em 1em;
+        }
+
+        .portal {
+            max-width: 80%;
+            margin: 0 10%;
+            height: auto;
+        }
+
+        .title-randomizer {
+            margin-top: 1em;
+            /* Espacement entre les éléments */
+            font-size: .8rem;
+            letter-spacing: .1em;
+        }
+
+        .img-title {
+            max-width: 90%;
+        }
+    }
+
+    @media screen and (max-width: 767px) {
+
+        .switch__buttons {
+            gap: 1.5rem 2rem;
+            width: 90%;
+            margin: 0 5%;
+            padding-top: 4em;
+            font-size: .45em;
+        }
+
+        @keyframes halo-animation {
+            0% {
+                box-shadow: 0 0 0 0 rgba(184, 227, 115, 0.295);
+            }
+
+            50% {
+                box-shadow: 0 0 0 10px rgba(184, 227, 115, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(184, 227, 115, 0.7);
+            }
+        }
+
+        .container {
+            padding-block: 3em;
+        }
+
+        .title-randomizer p {
+            font-size: 3em;
+            padding-top: .1em;
+        }
+
+        img.img-title {
+            width: 100%;
+            height: auto;
+        }
+
+        img.portal {
+            width: 14em;
+            height: auto;
+            padding-top: 1em;
+        }
+
+        .modal__content {
+            max-width: 305px;
+            max-height: 80%;
+        }
+
+        img.modal__img{
+            width: 100%;
+            margin: 0 auto;
+        }
+    }
 }

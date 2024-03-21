@@ -86,10 +86,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         <p class="modal__episodes">Episodes:</p>
                         <ul>
                             ${character.episodes.map(episode => {
-                                // Extract episode number from URL
-                                const episodeNumber = episode.split('/').pop();
-                                return `<li>Episode ${episodeNumber}</li>`;
-                            }).join('')}
+                    // Extract episode number from URL
+                    const episodeNumber = episode.split('/').pop();
+                    return `<li>Episode ${episodeNumber}</li>`;
+                }).join('')}
                         </ul>
                     </div>
                 `;
@@ -99,11 +99,11 @@ document.addEventListener("DOMContentLoaded", function () {
             cardContainer.appendChild(article);
         });
     };
-
+    console.log(tableUnknown);
     function openModal(content) {
         const modalOverlay = document.getElementById('modalOverlay');
         const modalBody = document.getElementById('modalBody');
-        
+
         if (!modalOverlay || !modalBody) return; // Ajout d'une vérification
 
         modalBody.innerHTML = content;
@@ -161,4 +161,23 @@ document.addEventListener("DOMContentLoaded", function () {
             displayCharacterCards(selectedCharacters);
         });
     };
+    // Sélectionnez tous les boutons
+    const buttons = document.querySelectorAll('.switch__buttons button');
+
+    // Fonction pour ajouter la classe et supprimer après 3 secondes
+    function handleClick() {
+        // Ajouter la classe pour l'animation accélérée
+        this.classList.add('halo-click-animation');
+
+        // Supprimer la classe après 3 secondes
+        setTimeout(() => {
+            this.classList.remove('halo-click-animation');
+        }, 3000); // 3 secondes en millisecondes
+    }
+
+    // Ajouter un écouteur d'événement à chaque bouton
+    buttons.forEach(button => {
+        button.addEventListener('click', handleClick);
+    });
+
 });

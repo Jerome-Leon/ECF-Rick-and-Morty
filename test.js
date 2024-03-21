@@ -86,10 +86,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         <p class="modal__episodes">Episodes:</p>
                         <ul>
                             ${character.episodes.map(episode => {
-                                // Extract episode number from URL
-                                const episodeNumber = episode.split('/').pop();
-                                return `<li>Episode ${episodeNumber}</li>`;
-                            }).join('')}
+                    // Extract episode number from URL
+                    const episodeNumber = episode.split('/').pop();
+                    return `<li>Episode ${episodeNumber}</li>`;
+                }).join('')}
                         </ul>
                     </div>
                 `;
@@ -98,12 +98,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
             cardContainer.appendChild(article);
         });
-    };
+        // Ajouter un écouteur d'événement de scroll
+        window.addEventListener('scroll', () => {
+            const cardDataElements = document.querySelectorAll('.card__data');
 
+            // Vérifier chaque élément .card__data
+            cardDataElements.forEach(cardData => {
+                // Vérifier si l'élément est dans la vue (partiellement)
+                if (isElementInViewport(cardData)) {
+                    // Ajouter la classe hover pour activer l'effet
+                    cardData.classList.add('auto-hover');
+                } else {
+                    // Si l'élément sort de la vue, retirer la classe hover
+                    cardData.classList.remove('auto-hover');
+                }
+            });
+        });
+
+        // Fonction pour vérifier si un élément est dans la vue
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+    };
+    console.log(tableDead);
     function openModal(content) {
         const modalOverlay = document.getElementById('modalOverlay');
         const modalBody = document.getElementById('modalBody');
-        
+
         if (!modalOverlay || !modalBody) return; // Ajout d'une vérification
 
         modalBody.innerHTML = content;
@@ -161,4 +189,23 @@ document.addEventListener("DOMContentLoaded", function () {
             displayCharacterCards(selectedCharacters);
         });
     };
+    // Sélectionnez tous les boutons
+    const buttons = document.querySelectorAll('.switch__buttons button');
+
+    // Fonction pour ajouter la classe et supprimer après 3 secondes
+    function handleClick() {
+        // Ajouter la classe pour l'animation accélérée
+        this.classList.add('halo-click-animation');
+
+        // Supprimer la classe après 3 secondes
+        setTimeout(() => {
+            this.classList.remove('halo-click-animation');
+        }, 3000); // 3 secondes en millisecondes
+    }
+
+    // Ajouter un écouteur d'événement à chaque bouton
+    buttons.forEach(button => {
+        button.addEventListener('click', handleClick);
+    });
+
 });
