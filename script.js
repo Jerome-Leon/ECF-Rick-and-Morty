@@ -9,51 +9,56 @@ document.addEventListener("DOMContentLoaded", function () {
     // Tableau pour suivre les IDs des personnages déjà affichés
     let displayedCharacterIds = [];
 
-    // Fonction asynchrone pour récupérer les personnages depuis l'API
-    async function getCharactersFromAPI() {
-        try {
-            // Récupérer les données de la première page de l'API
-            const response = await fetch(`https://rickandmortyapi.com/api/character/?page=1`);
-            const data = await response.json();
+    // Fonction pour récupérer les personnages depuis l'API
+    function getCharactersFromAPI() {
+        // Récupérer les données de la première page de l'API
+        fetch(`https://rickandmortyapi.com/api/character/?page=1`)
+            .then(response => response.json())
+            .then(data => {
+                // Parcourir tous les personnages de la première page
+                const promises = [];
+                for (let i = 1; i <= data.info.count; i++) {
+                    // Récupérer les données d'un personnage spécifique
+                    const characterPromise = fetch(`https://rickandmortyapi.com/api/character/${i}`)
+                        .then(response => response.json())
+                        .then(characterData => {
+                            // Créer un objet avec les informations du personnage
+                            let status = characterData.status;
+                            let characterInfo = {
+                                id: characterData.id,
+                                name: characterData.name,
+                                status: status,
+                                image: characterData.image,
+                                gender: characterData.gender,
+                                species: characterData.species,
+                                origin: characterData.origin.name,
+                                location: characterData.location.name,
+                                episodes: characterData.episode // Array of episode URLs
+                            };
 
-            // Parcourir tous les personnages de la première page
-            for (let i = 1; i <= data.info.count; i++) {
-                // Récupérer les données d'un personnage spécifique
-                const character = await fetch(`https://rickandmortyapi.com/api/character/${i}`);
-                const characterData = await character.json();
+                            // Classifier le personnage en fonction de son statut
+                            if (status === "Dead") {
+                                tableDead.push(characterInfo);
+                            } else if (status === "Alive") {
+                                tableAlive.push(characterInfo);
+                            } else {
+                                tableUnknown.push(characterInfo);
+                            }
+                        })
+                        .catch(error => console.error("Error fetching character:", error));
 
-                // Créer un objet avec les informations du personnage
-                let status = characterData.status;
-                let characterInfo = {
-                    id: characterData.id,
-                    name: characterData.name,
-                    status: status,
-                    image: characterData.image,
-                    gender: characterData.gender,
-                    species: characterData.species,
-                    origin: characterData.origin.name,
-                    location: characterData.location.name,
-                    episodes: characterData.episode // Array of episode URLs
-                };
+                    promises.push(characterPromise);
+                }
 
-                // Classifier le personnage en fonction de son statut
-                if (status === "Dead") {
-                    tableDead.push(characterInfo);
-                } else if (status === "Alive") {
-                    tableAlive.push(characterInfo);
-                } else {
-                    tableUnknown.push(characterInfo);
-                };
-            };
-
-            // Sélectionner un ensemble aléatoire de personnages
-            const selectedCharacters = selectRandomCharacters(tableDead.concat(tableAlive, tableUnknown));
-            // Afficher les cartes de ces personnages
-            displayCharacterCards(selectedCharacters);
-        } catch (error) {
-            console.error("Error fetching characters:", error);
-        };
-    };
+                // Une fois que toutes les promesses sont résolues, sélectionner un ensemble aléatoire de personnages
+                Promise.all(promises).then(() => {
+                    const selectedCharacters = selectRandomCharacters(tableDead.concat(tableAlive, tableUnknown));
+                    // Afficher les cartes de ces personnages
+                    displayCharacterCards(selectedCharacters);
+                });
+            })
+            .catch(error => console.error("Error fetching characters:", error));
+    }
 
     // Fonction pour sélectionner un nombre aléatoire de personnages
     function selectRandomCharacters(charactersArray) {
@@ -66,11 +71,11 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!displayedCharacterIds.includes(randomCharacter.id)) {
                 selectedCharacters.push(randomCharacter);
                 displayedCharacterIds.push(randomCharacter.id);
-            };
-        };
+            }
+        }
 
         return selectedCharacters;
-    };
+    }
 
     // Fonction pour afficher les cartes des personnages
     function displayCharacterCards(characters) {
@@ -101,10 +106,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         <p class="modal__episodes">Seen in the episodes :</p>
                         <ul>
                             ${character.episodes.map(episode => {
-                    // Extraire le numéro d'épisode à partir de l'URL
-                    const episodeNumber = episode.split('/').pop();
-                    return `<li>Episode ${episodeNumber}</li>`;
-                }).join('')}
+                                // Extraire le numéro d'épisode à partir de l'URL
+                                const episodeNumber = episode.split('/').pop();
+                                return `<li>Episode ${episodeNumber}</li>`;
+                            }).join('')}
                         </ul>
                     </div>
                 `;
@@ -142,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
             );
         }
 
-    };
+    }
 
     // Fonction pour ouvrir un modal avec le contenu spécifié
     function openModal(content) {
@@ -167,7 +172,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
-
     // Fonction pour fermer le modal
     function closeModal() {
         const modalOverlay = document.getElementById('modalOverlay');
@@ -177,76 +181,88 @@ document.addEventListener("DOMContentLoaded", function () {
     // Appeler la fonction pour récupérer les personnages au chargement de la page
     getCharactersFromAPI();
 
-        // Sélectionner le bouton "12 nouveaux personnages" s'il existe
-        const new12Button = document.getElementById('new12');
-        // Ajouter un écouteur d'événement pour recharger 12 nouveaux personnages
-        if (new12Button) {
-            new12Button.addEventListener('click', () => {
-                // Réinitialiser les IDs des personnages déjà affichés
-                displayedCharacterIds = [];
-                // Sélectionner et afficher 12 nouveaux personnages aléatoires parmi tous
-                const selectedCharacters = selectRandomCharacters(tableDead.concat(tableAlive, tableUnknown));
-                displayCharacterCards(selectedCharacters);
-            });
-        };
-    
-        // Sélectionner le bouton "Morts" s'il existe
-        const deadOnesButton = document.getElementById('dead__ones');
-        // Ajouter un écouteur d'événement pour afficher des personnages morts
-        if (deadOnesButton) {
-            deadOnesButton.addEventListener('click', () => {
-                // Réinitialiser les IDs des personnages déjà affichés
-                displayedCharacterIds = [];
-                // Sélectionner et afficher des personnages morts aléatoires
-                const selectedCharacters = selectRandomCharacters(tableDead);
-                displayCharacterCards(selectedCharacters);
-            });
-        };
-    
-        // Sélectionner le bouton "Vivants" s'il existe
-        const livingOnesButton = document.getElementById('living__ones');
-        // Ajouter un écouteur d'événement pour afficher des personnages vivants
-        if (livingOnesButton) {
-            livingOnesButton.addEventListener('click', () => {
-                // Réinitialiser les IDs des personnages déjà affichés
-                displayedCharacterIds = [];
-                // Sélectionner et afficher des personnages vivants aléatoires
-                const selectedCharacters = selectRandomCharacters(tableAlive);
-                displayCharacterCards(selectedCharacters);
-            });
-        };
-    
-        // Sélectionner le bouton "Inconnus" s'il existe
-        const unknownOnesButton = document.getElementById('unknown__ones');
-        // Ajouter un écouteur d'événement pour afficher des personnages avec un statut inconnu
-        if (unknownOnesButton) {
-            unknownOnesButton.addEventListener('click', () => {
-                // Réinitialiser les IDs des personnages déjà affichés
-                displayedCharacterIds = [];
-                // Sélectionner et afficher des personnages avec un statut inconnu aléatoires
-                const selectedCharacters = selectRandomCharacters(tableUnknown);
-                displayCharacterCards(selectedCharacters);
-            });
-        };
-    
-        // Sélectionner tous les boutons de commutation
-        const buttons = document.querySelectorAll('.switch__buttons button');
-    
-        // Fonction pour ajouter une classe d'animation de halo au clic sur un bouton
-        function handleClick() {
-            // Ajouter la classe pour l'animation de halo
-            this.classList.add('halo-click-animation');
-    
-            // Supprimer la classe après 3 secondes
-            setTimeout(() => {
-                this.classList.remove('halo-click-animation');
-            }, 3000); // 3 secondes en millisecondes
-        }
-    
-        // Ajouter un écouteur d'événement à chaque bouton pour l'animation de halo
-        buttons.forEach(button => {
-            button.addEventListener('click', handleClick);
+    // Sélectionner le bouton "12 nouveaux personnages" s'il existe
+    const new12Button = document.getElementById('new12');
+    // Ajouter un écouteur d'événement pour recharger 12 nouveaux personnages
+    if (new12Button) {
+        new12Button.addEventListener('click', () => {
+            // Réinitialiser les IDs des personnages déjà affichés
+            displayedCharacterIds = [];
+            // Sélectionner et afficher 12 nouveaux personnages aléatoires parmi tous
+            const selectedCharacters = selectRandomCharacters(tableDead.concat(tableAlive, tableUnknown));
+            displayCharacterCards(selectedCharacters);
         });
-    
+    };
+
+    // Sélectionner le bouton "Morts" s'il existe
+    const deadOnesButton = document.getElementById('dead__ones');
+    // Ajouter un écouteur d'événement pour afficher des personnages morts
+    if (deadOnesButton) {
+        deadOnesButton.addEventListener('click', () => {
+            // Réinitialiser les IDs des personnages déjà affichés
+            displayedCharacterIds = [];
+            // Sélectionner et afficher des personnages morts aléatoires
+            const selectedCharacters = selectRandomCharacters(tableDead);
+            displayCharacterCards(selectedCharacters);
+        });
+    };
+
+    // Sélectionner le bouton "Vivants" s'il existe
+    const livingOnesButton = document.getElementById('living__ones');
+    // Ajouter un écouteur d'événement pour afficher des personnages vivants
+    if (livingOnesButton) {
+        livingOnesButton.addEventListener('click', () => {
+            // Réinitialiser les IDs des personnages déjà affichés
+            displayedCharacterIds = [];
+            // Sélectionner et afficher des personnages vivants aléatoires
+            const selectedCharacters = selectRandomCharacters(tableAlive);
+            displayCharacterCards(selectedCharacters);
+        });
+    };
+
+    // Sélectionner le bouton "Inconnus" s'il existe
+    const unknownOnesButton = document.getElementById('unknown__ones');
+    // Ajouter un écouteur d'événement pour afficher des personnages avec un statut inconnu
+    if (unknownOnesButton) {
+        unknownOnesButton.addEventListener('click', () => {
+            // Réinitialiser les IDs des personnages déjà affichés
+            displayedCharacterIds = [];
+            // Sélectionner et afficher des personnages avec un statut inconnu aléatoires
+            const selectedCharacters = selectRandomCharacters(tableUnknown);
+            displayCharacterCards(selectedCharacters);
+        });
+    };
+
+    // Fonction pour intercepter l'événement de pression longue sur l'image
+    function preventImageContextMenu(e) {
+        // Empêcher le comportement par défaut (ouverture du menu contextuel)
+        e.preventDefault();
+    }
+
+    // Ajouter un écouteur d'événement de pression longue sur chaque image
+    const images = document.querySelectorAll('img');
+    images.forEach(image => {
+        image.addEventListener('touchstart', preventImageContextMenu);
     });
-    
+
+
+    // Sélectionner tous les boutons de commutation
+    const buttons = document.querySelectorAll('.switch__buttons button');
+
+    // Fonction pour ajouter une classe d'animation de halo au clic sur un bouton
+    function handleClick() {
+        // Ajouter la classe pour l'animation de halo
+        this.classList.add('halo-click-animation');
+
+        // Supprimer la classe après 3 secondes
+        setTimeout(() => {
+            this.classList.remove('halo-click-animation');
+        }, 3000); // 3 secondes en millisecondes
+    }
+
+    // Ajouter un écouteur d'événement à chaque bouton pour l'animation de halo
+    buttons.forEach(button => {
+        button.addEventListener('click', handleClick);
+    });
+
+});

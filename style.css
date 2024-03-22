@@ -305,6 +305,15 @@ header {
     cursor: default;
 }
 
+img {
+    -webkit-user-select: none; /* Désactiver la sélection de texte pour Safari */
+    -moz-user-select: none; /* Désactiver la sélection de texte pour Firefox */
+    -ms-user-select: none; /* Désactiver la sélection de texte pour Internet Explorer/Edge */
+    user-select: none; /* Désactiver la sélection de texte pour les autres navigateurs */
+    pointer-events: none; /* Désactiver les événements de souris (clics, survols, etc.) */
+}
+
+
 /* ================ FOOTER ================ */
 
 .bannerfooter {
