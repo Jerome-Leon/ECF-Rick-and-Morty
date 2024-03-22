@@ -22,9 +22,8 @@ font-family: 'Bellota Text', display;*/
 header {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    width: 75%;
-    margin: 2em 12.5%;
+    width: 65%;
+    margin: 2em 17.5%;
 }
 
 .portal {
