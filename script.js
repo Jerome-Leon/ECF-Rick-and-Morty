@@ -1,19 +1,28 @@
+// Attendre que le DOM soit entièrement chargé avant d'exécuter le code
 document.addEventListener("DOMContentLoaded", function () {
+    // Nombre de personnages à afficher
     const numCharacters = 12;
+    // Tableaux pour stocker les personnages selon leur statut
     let tableDead = [];
     let tableAlive = [];
     let tableUnknown = [];
+    // Tableau pour suivre les IDs des personnages déjà affichés
     let displayedCharacterIds = [];
 
+    // Fonction asynchrone pour récupérer les personnages depuis l'API
     async function getCharactersFromAPI() {
         try {
+            // Récupérer les données de la première page de l'API
             const response = await fetch(`https://rickandmortyapi.com/api/character/?page=1`);
             const data = await response.json();
 
+            // Parcourir tous les personnages de la première page
             for (let i = 1; i <= data.info.count; i++) {
+                // Récupérer les données d'un personnage spécifique
                 const character = await fetch(`https://rickandmortyapi.com/api/character/${i}`);
                 const characterData = await character.json();
 
+                // Créer un objet avec les informations du personnage
                 let status = characterData.status;
                 let characterInfo = {
                     id: characterData.id,
@@ -27,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     episodes: characterData.episode // Array of episode URLs
                 };
 
+                // Classifier le personnage en fonction de son statut
                 if (status === "Dead") {
                     tableDead.push(characterInfo);
                 } else if (status === "Alive") {
@@ -36,13 +46,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 };
             };
 
+            // Sélectionner un ensemble aléatoire de personnages
             const selectedCharacters = selectRandomCharacters(tableDead.concat(tableAlive, tableUnknown));
+            // Afficher les cartes de ces personnages
             displayCharacterCards(selectedCharacters);
         } catch (error) {
             console.error("Error fetching characters:", error);
         };
     };
 
+    // Fonction pour sélectionner un nombre aléatoire de personnages
     function selectRandomCharacters(charactersArray) {
         let selectedCharacters = [];
 
@@ -59,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return selectedCharacters;
     };
 
+    // Fonction pour afficher les cartes des personnages
     function displayCharacterCards(characters) {
         const cardContainer = document.querySelector('.card__container');
         cardContainer.innerHTML = '';
@@ -76,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             `;
 
+            // Ajouter un écouteur d'événement pour afficher les détails du personnage dans un modal
             article.addEventListener('click', () => {
                 const modalContent = `
                     <img src="${character.image}" alt="character" class="modal__img">
@@ -86,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <p class="modal__episodes">Seen in the episodes :</p>
                         <ul>
                             ${character.episodes.map(episode => {
-                    // Extract episode number from URL
+                    // Extraire le numéro d'épisode à partir de l'URL
                     const episodeNumber = episode.split('/').pop();
                     return `<li>Episode ${episodeNumber}</li>`;
                 }).join('')}
@@ -98,7 +113,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             cardContainer.appendChild(article);
         });
-        // Ajouter un écouteur d'événement de scroll
+
+        // Ajouter un écouteur d'événement de scroll pour activer l'effet de hover
         window.addEventListener('scroll', () => {
             const cardDataElements = document.querySelectorAll('.card__data');
 
@@ -127,19 +143,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
     };
-    console.log(tableDead);
+
+    // Fonction pour ouvrir un modal avec le contenu spécifié
     function openModal(content) {
         const modalOverlay = document.getElementById('modalOverlay');
         const modalBody = document.getElementById('modalBody');
 
         if (!modalOverlay || !modalBody) return; // Ajout d'une vérification
 
+        // Injecter le contenu dans le modal
         modalBody.innerHTML = content;
+        // Afficher le modal
         modalOverlay.style.display = 'flex';
 
+        // Ajouter un écouteur d'événement pour fermer le modal
         const modalClose = document.getElementById('modalClose');
         modalClose.addEventListener('click', closeModal);
 
+        // Fermer le modal si l'utilisateur clique en dehors du contenu
         modalOverlay.addEventListener('click', (event) => {
             if (event.target === modalOverlay) {
                 closeModal();
@@ -147,65 +168,85 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // Fonction pour fermer le modal
     function closeModal() {
         const modalOverlay = document.getElementById('modalOverlay');
         modalOverlay.style.display = 'none';
     }
 
+    // Appeler la fonction pour récupérer les personnages au chargement de la page
     getCharactersFromAPI();
 
-    const new12Button = document.getElementById('new12');
-    if (new12Button) {
-        new12Button.addEventListener('click', () => {
-            displayedCharacterIds = [];
-            const selectedCharacters = selectRandomCharacters(tableDead.concat(tableAlive, tableUnknown));
-            displayCharacterCards(selectedCharacters);
+        // Sélectionner le bouton "12 nouveaux personnages" s'il existe
+        const new12Button = document.getElementById('new12');
+        // Ajouter un écouteur d'événement pour recharger 12 nouveaux personnages
+        if (new12Button) {
+            new12Button.addEventListener('click', () => {
+                // Réinitialiser les IDs des personnages déjà affichés
+                displayedCharacterIds = [];
+                // Sélectionner et afficher 12 nouveaux personnages aléatoires parmi tous
+                const selectedCharacters = selectRandomCharacters(tableDead.concat(tableAlive, tableUnknown));
+                displayCharacterCards(selectedCharacters);
+            });
+        };
+    
+        // Sélectionner le bouton "Morts" s'il existe
+        const deadOnesButton = document.getElementById('dead__ones');
+        // Ajouter un écouteur d'événement pour afficher des personnages morts
+        if (deadOnesButton) {
+            deadOnesButton.addEventListener('click', () => {
+                // Réinitialiser les IDs des personnages déjà affichés
+                displayedCharacterIds = [];
+                // Sélectionner et afficher des personnages morts aléatoires
+                const selectedCharacters = selectRandomCharacters(tableDead);
+                displayCharacterCards(selectedCharacters);
+            });
+        };
+    
+        // Sélectionner le bouton "Vivants" s'il existe
+        const livingOnesButton = document.getElementById('living__ones');
+        // Ajouter un écouteur d'événement pour afficher des personnages vivants
+        if (livingOnesButton) {
+            livingOnesButton.addEventListener('click', () => {
+                // Réinitialiser les IDs des personnages déjà affichés
+                displayedCharacterIds = [];
+                // Sélectionner et afficher des personnages vivants aléatoires
+                const selectedCharacters = selectRandomCharacters(tableAlive);
+                displayCharacterCards(selectedCharacters);
+            });
+        };
+    
+        // Sélectionner le bouton "Inconnus" s'il existe
+        const unknownOnesButton = document.getElementById('unknown__ones');
+        // Ajouter un écouteur d'événement pour afficher des personnages avec un statut inconnu
+        if (unknownOnesButton) {
+            unknownOnesButton.addEventListener('click', () => {
+                // Réinitialiser les IDs des personnages déjà affichés
+                displayedCharacterIds = [];
+                // Sélectionner et afficher des personnages avec un statut inconnu aléatoires
+                const selectedCharacters = selectRandomCharacters(tableUnknown);
+                displayCharacterCards(selectedCharacters);
+            });
+        };
+    
+        // Sélectionner tous les boutons de commutation
+        const buttons = document.querySelectorAll('.switch__buttons button');
+    
+        // Fonction pour ajouter une classe d'animation de halo au clic sur un bouton
+        function handleClick() {
+            // Ajouter la classe pour l'animation de halo
+            this.classList.add('halo-click-animation');
+    
+            // Supprimer la classe après 3 secondes
+            setTimeout(() => {
+                this.classList.remove('halo-click-animation');
+            }, 3000); // 3 secondes en millisecondes
+        }
+    
+        // Ajouter un écouteur d'événement à chaque bouton pour l'animation de halo
+        buttons.forEach(button => {
+            button.addEventListener('click', handleClick);
         });
-    };
-
-    const deadOnesButton = document.getElementById('dead__ones');
-    if (deadOnesButton) {
-        deadOnesButton.addEventListener('click', () => {
-            displayedCharacterIds = [];
-            const selectedCharacters = selectRandomCharacters(tableDead);
-            displayCharacterCards(selectedCharacters);
-        });
-    };
-
-    const livingOnesButton = document.getElementById('living__ones');
-    if (livingOnesButton) {
-        livingOnesButton.addEventListener('click', () => {
-            displayedCharacterIds = [];
-            const selectedCharacters = selectRandomCharacters(tableAlive);
-            displayCharacterCards(selectedCharacters);
-        });
-    };
-
-    const unknownOnesButton = document.getElementById('unknown__ones');
-    if (unknownOnesButton) {
-        unknownOnesButton.addEventListener('click', () => {
-            displayedCharacterIds = [];
-            const selectedCharacters = selectRandomCharacters(tableUnknown);
-            displayCharacterCards(selectedCharacters);
-        });
-    };
-    // Sélectionnez tous les boutons
-    const buttons = document.querySelectorAll('.switch__buttons button');
-
-    // Fonction pour ajouter la classe et supprimer après 3 secondes
-    function handleClick() {
-        // Ajouter la classe pour l'animation accélérée
-        this.classList.add('halo-click-animation');
-
-        // Supprimer la classe après 3 secondes
-        setTimeout(() => {
-            this.classList.remove('halo-click-animation');
-        }, 3000); // 3 secondes en millisecondes
-    }
-
-    // Ajouter un écouteur d'événement à chaque bouton
-    buttons.forEach(button => {
-        button.addEventListener('click', handleClick);
+    
     });
-
-});
+    

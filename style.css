@@ -118,6 +118,7 @@ header {
     font-family: 'Jolly Lodger', display;
     letter-spacing: 0.1em;
     font-size: 2em;
+    color: #151320;
     background: radial-gradient(circle, #4BAFC6, #4BAFC6);
     border-radius: 0.5em;
     border: solid 3px #fff;
@@ -218,6 +219,7 @@ header {
     gap: 3.5rem;
     justify-content: center;
     width: 70%;
+    padding-bottom: 6em;
 }
 
 .card__article {
@@ -527,11 +529,11 @@ li{
     @media screen and (max-width: 767px) {
 
         .switch__buttons {
-            gap: 1.5rem 2rem;
+            gap: 1.3rem 1rem;
             width: 90%;
             margin: 0 5%;
             padding-top: 4em;
-            font-size: .45em;
+            font-size: .5em;
         }
 
         @keyframes halo-animation {
