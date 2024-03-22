@@ -23,8 +23,8 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 80%;
-    margin: 2em 10%;
+    width: 75%;
+    margin: 2em 12.5%;
 }
 
 .portal {
@@ -275,6 +275,7 @@ header {
     color: #151320;
     padding-bottom: .25em;
     text-align: center;
+    cursor: default;
 }
 
 .card__title {
@@ -284,6 +285,7 @@ header {
     letter-spacing: 0.1rem;
     color: #151320;
     font-size: 2em;
+    cursor: default;
 }
 
 .card__gender {
@@ -291,12 +293,14 @@ header {
     color: #151320;
     height: 2rem;
     text-align: center;
+    cursor: default;
 }
 
 .card__species {
     font-size: 1.4rem;
     color: #151320;
     text-align: center;
+    cursor: default;
 }
 
 /* ================ FOOTER ================ */
@@ -388,7 +392,7 @@ footer {
 }
 
 .modal__content {
-    background-color: #f1f1f1;
+    background-color: #fffcde;
     padding: 2em;
     border-radius: 1em;
     max-width: 365px;
@@ -436,7 +440,11 @@ img.modal__img{
 }
 
 .modal__episodes {
-    font-size: 1.5em;
+    font-size: 1.3em;
+}
+
+li{
+    cursor: default;
 }
 
 /* ================ MEDIA QUERIES ================ */
@@ -574,7 +582,9 @@ img.modal__img{
         }
     }
 }
-/* ================ Hover Animation ================ */
+
+/* ===== HOVER ANIMATION @media screen and (max-width: 1150px) ===== */
+
 .card__article.auto-hover .card__data {
     animation: show-data 1s forwards, expand-width 1s forwards;
     transition: width 0.5s ease-in-out;

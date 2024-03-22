@@ -23,8 +23,8 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 80%;
-    margin: 2em 10%;
+    width: 75%;
+    margin: 2em 12.5%;
 }
 
 .portal {
@@ -63,17 +63,36 @@ header {
 }
 
 @keyframes animate {
-    0%, 18%, 20%, 50.1%, 60%, 65.1%, 80%, 90.1%, 92%{
+
+    0%,
+    18%,
+    20%,
+    50.1%,
+    60%,
+    65.1%,
+    80%,
+    90.1%,
+    92% {
         color: #3d3b58;
         text-shadow: none;
     }
-    18.1%, 20.1%, 30%, 50%, 60.1%, 65%, 80.1%, 90%, 92.1%, 100%{
+
+    18.1%,
+    20.1%,
+    30%,
+    50%,
+    60.1%,
+    65%,
+    80.1%,
+    90%,
+    92.1%,
+    100% {
         color: #fff;
         text-shadow: 0 0 10px #cfff83,
-        0 0 20px #cfff83,
-        0 0 40px #cfff83,
-        0 0 80px #cfff83,
-        0 0 160px #cfff83;
+            0 0 20px #cfff83,
+            0 0 40px #cfff83,
+            0 0 80px #cfff83,
+            0 0 160px #cfff83;
     }
 }
 
@@ -219,7 +238,7 @@ header {
     height: 240px;
     background-color: #fffcde;
     padding: 1rem 2rem;
-    box-shadow: 0 8px 24px hsla(0, 0%, 0%, .15);
+    box-shadow: 0px 30px 20px 20px hsla(0, 0%, 2%, 0.486);
     border-radius: 0 0 1rem 1rem;
     position: absolute;
     bottom: -170px;
@@ -256,6 +275,7 @@ header {
     color: #151320;
     padding-bottom: .25em;
     text-align: center;
+    cursor: default;
 }
 
 .card__title {
@@ -265,6 +285,7 @@ header {
     letter-spacing: 0.1rem;
     color: #151320;
     font-size: 2em;
+    cursor: default;
 }
 
 .card__gender {
@@ -272,12 +293,14 @@ header {
     color: #151320;
     height: 2rem;
     text-align: center;
+    cursor: default;
 }
 
 .card__species {
     font-size: 1.4rem;
     color: #151320;
     text-align: center;
+    cursor: default;
 }
 
 /* ================ FOOTER ================ */
@@ -350,7 +373,6 @@ footer {
 
 /* ================ MODAL ================ */
 
-
 .modal__overlay {
     position: fixed;
     top: 0;
@@ -370,7 +392,7 @@ footer {
 }
 
 .modal__content {
-    background-color: #f1f1f1;
+    background-color: #fffcde;
     padding: 2em;
     border-radius: 1em;
     max-width: 365px;
@@ -418,7 +440,11 @@ img.modal__img{
 }
 
 .modal__episodes {
-    font-size: 1.5em;
+    font-size: 1.3em;
+}
+
+li{
+    cursor: default;
 }
 
 /* ================ MEDIA QUERIES ================ */
@@ -554,5 +580,78 @@ img.modal__img{
             width: 100%;
             margin: 0 auto;
         }
+    }
+}
+
+/* ===== HOVER ANIMATION @media screen and (max-width: 1150px) ===== */
+
+.card__article.auto-hover .card__data {
+    animation: show-data 1s forwards, expand-width 1s forwards;
+    transition: width 0.5s ease-in-out;
+}
+
+.card__article.auto-hover:hover {
+    animation: remove-overflow 2s forwards;
+}
+
+.card__article.auto-hover:not(:hover) {
+    animation: show-overflow 2s forwards;
+}
+
+.card__article.auto-hover:not(:hover) .card__data {
+    animation: remove-data 1s forwards;
+    transition: width 0.5s ease-in-out;
+}
+
+@keyframes show-data {
+    50% {
+        transform: translateY(-13rem);
+    }
+
+    100% {
+        transform: translateY(2rem);
+    }
+}
+
+@keyframes expand-width {
+    0% {
+        width: 280px;
+        /* Largeur initiale */
+    }
+
+    100% {
+        width: 300px;
+        /* Largeur à la fin de l'animation */
+    }
+}
+
+@keyframes remove-overflow {
+    to {
+        overflow: initial;
+    }
+}
+
+@keyframes remove-data {
+    0% {
+        transform: translateY(-7rem);
+    }
+
+    50% {
+        transform: translateY(-12rem);
+    }
+
+    100% {
+        transform: translateY(.5rem);
+    }
+}
+
+@keyframes show-overflow {
+    0% {
+        overflow: initial;
+        pointer-events: none;
+    }
+
+    50% {
+        overflow: hidden;
     }
 }

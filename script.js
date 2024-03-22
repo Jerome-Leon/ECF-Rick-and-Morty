@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <h2 class="modal__title">${character.name}</h2>
                         <p class="modal__origin">Origin: ${character.origin}</p>
                         <p class="modal__location">Location: ${character.location}</p>
-                        <p class="modal__episodes">Episodes:</p>
+                        <p class="modal__episodes">Seen in the episodes :</p>
                         <ul>
                             ${character.episodes.map(episode => {
                     // Extract episode number from URL
@@ -98,8 +98,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
             cardContainer.appendChild(article);
         });
+        // Ajouter un écouteur d'événement de scroll
+        window.addEventListener('scroll', () => {
+            const cardDataElements = document.querySelectorAll('.card__data');
+
+            // Vérifier chaque élément .card__data
+            cardDataElements.forEach(cardData => {
+                // Vérifier si l'élément est dans la vue (partiellement)
+                if (isElementInViewport(cardData)) {
+                    // Ajouter la classe hover pour activer l'effet
+                    cardData.classList.add('auto-hover');
+                } else {
+                    // Si l'élément sort de la vue, retirer la classe hover
+                    cardData.classList.remove('auto-hover');
+                }
+            });
+        });
+
+        // Fonction pour vérifier si un élément est dans la vue
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
     };
-    console.log(tableUnknown);
+    console.log(tableDead);
     function openModal(content) {
         const modalOverlay = document.getElementById('modalOverlay');
         const modalBody = document.getElementById('modalBody');

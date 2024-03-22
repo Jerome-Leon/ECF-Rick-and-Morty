@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <h2 class="modal__title">${character.name}</h2>
                         <p class="modal__origin">Origin: ${character.origin}</p>
                         <p class="modal__location">Location: ${character.location}</p>
-                        <p class="modal__episodes">Episodes:</p>
+                        <p class="modal__episodes">Seen in the episodes :</p>
                         <ul>
                             ${character.episodes.map(episode => {
                     // Extract episode number from URL
