@@ -305,15 +305,12 @@ header {
 
 /* ================ FOOTER ================ */
 
-footer {
-    width: 100%;
-    height: 10em;
-}
-
 .bannerfooter {
     width: 100%;
-    height: 10em;
+    height: 20em;
     background-image: url('./IMAGES/Rick-and-Morty_FOOTER.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
 }
 
 /* ================ ANIMATIONS ================ */
@@ -579,6 +576,21 @@ li{
         img.modal__img{
             width: 100%;
             margin: 0 auto;
+        }
+
+        footer{
+            background-color: #11afc8;
+            display: flex;
+            padding-top: 1em;
+        }
+
+        .bannerfooter {
+            width: 90%;
+            margin: 0 auto;
+            height: 5em;
+            background-image: url('./IMAGES/Rick-and-Morty_FOOTER_mobile.png');
+            background-size: 100%;
+            background-repeat: no-repeat;
         }
     }
 }
