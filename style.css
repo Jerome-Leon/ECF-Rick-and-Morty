@@ -219,7 +219,7 @@ header {
     gap: 3.5rem;
     justify-content: center;
     width: 70%;
-    padding-bottom: 6em;
+    padding-bottom:11em;
 }
 
 .card__article {
@@ -545,6 +545,11 @@ li{
 
     @media screen and (max-width: 767px) {
 
+        img .portal {
+            width: 100%;
+            margin: 0;
+        }
+
         .switch__buttons {
             gap: 1.3rem 1rem;
             width: 90%;
@@ -571,6 +576,14 @@ li{
             padding-block: 3em;
         }
 
+        .card__data {
+            display: none; /* Caché par défaut */
+        }
+        
+        .card__data.open {
+            display: block; /* Affiché lorsque la classe "open" est présente */
+        }
+        
         .title-randomizer p {
             font-size: 3em;
             padding-top: .1em;
@@ -595,6 +608,16 @@ li{
         img.modal__img{
             width: 100%;
             margin: 0 auto;
+        }
+
+        .card__article {
+            position: relative;
+            overflow: visible;
+            cursor: pointer;
+        }
+
+        .card__data{
+            width: 300px;
         }
 
         footer{
