@@ -27,7 +27,8 @@ header {
 }
 
 .portal {
-    width: 100%;
+    width: 80%;
+    margin: 0 10%;
 }
 
 .title {
@@ -237,7 +238,7 @@ header {
     width: 280px;
     /* Largeur initiale */
     height: 250px;
-    background-color: #c7c17e;
+    background-color: #dbd69d;
     padding: 1rem 2rem;
     box-shadow: 0px 30px 20px 20px hsla(0, 0%, 2%, 0.486);
     border-radius: 0 0 1rem 1rem;
@@ -610,78 +611,5 @@ li{
             background-size: 100%;
             background-repeat: no-repeat;
         }
-    }
-}
-
-/* ===== HOVER ANIMATION @media screen and (max-width: 1150px) ===== */
-
-.card__article.auto-hover .card__data {
-    animation: show-data 1s forwards, expand-width 1s forwards;
-    transition: width 0.5s ease-in-out;
-}
-
-.card__article.auto-hover:hover {
-    animation: remove-overflow 2s forwards;
-}
-
-.card__article.auto-hover:not(:hover) {
-    animation: show-overflow 2s forwards;
-}
-
-.card__article.auto-hover:not(:hover) .card__data {
-    animation: remove-data 1s forwards;
-    transition: width 0.5s ease-in-out;
-}
-
-@keyframes show-data {
-    50% {
-        transform: translateY(-13rem);
-    }
-
-    100% {
-        transform: translateY(2rem);
-    }
-}
-
-@keyframes expand-width {
-    0% {
-        width: 280px;
-        /* Largeur initiale */
-    }
-
-    100% {
-        width: 300px;
-        /* Largeur à la fin de l'animation */
-    }
-}
-
-@keyframes remove-overflow {
-    to {
-        overflow: initial;
-    }
-}
-
-@keyframes remove-data {
-    0% {
-        transform: translateY(-7rem);
-    }
-
-    50% {
-        transform: translateY(-12rem);
-    }
-
-    100% {
-        transform: translateY(.5rem);
-    }
-}
-
-@keyframes show-overflow {
-    0% {
-        overflow: initial;
-        pointer-events: none;
-    }
-
-    50% {
-        overflow: hidden;
     }
 }
