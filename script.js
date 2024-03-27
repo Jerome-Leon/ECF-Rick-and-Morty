@@ -208,6 +208,48 @@ async function getRandomUnknownStatusCharacters() {
     return characters;
 }
 
+// Fonction pour vérifier si un élément est visible à l'écran
+function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+// Fonction pour ouvrir les card__data des articles visibles
+function openVisibleCardData() {
+    const articles = document.querySelectorAll('.card__article');
+    let isOpened = false; // Variable pour vérifier si une card__data est ouverte
+
+    articles.forEach(article => {
+        const data = article.querySelector('.card__data');
+        if (isElementInViewport(article)) {
+            if (!isOpened) {
+                data.classList.add('open');
+                isOpened = true;
+            } else {
+                data.classList.remove('open');
+            }
+        } else {
+            data.classList.remove('open');
+        }
+    });
+}
+
+// Écoute de l'événement de scroll
+window.addEventListener('scroll', () => {
+    openVisibleCardData();
+});
+
+// Appeler la fonction au chargement de la page pour afficher les premiers 12 personnages
+window.onload = async () => {
+    await getNewRandomCharacters();
+    openVisibleCardData(); // Ouvrir ceux visibles dès le chargement
+};
+
 // Appeler la fonction pour obtenir de nouveaux personnages quand le bouton "new12" est cliqué
 document.getElementById('new12').addEventListener('click', async () => {
     await getNewRandomCharacters();
@@ -271,7 +313,15 @@ window.addEventListener('click', function (event) {
     }
 });
 
-// Appeler la fonction au chargement de la page pour afficher les premiers 12 personnages
-window.onload = async () => {
-    await getNewRandomCharacters();
-};
+// Fonction pour vérifier si un élément est visible à l'écran
+function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+

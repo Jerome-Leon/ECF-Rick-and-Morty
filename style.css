@@ -7,6 +7,10 @@
     list-style-type: none;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     background-color: #1C1B29;
 }
@@ -27,8 +31,8 @@ header {
 }
 
 .portal {
-    width: 80%;
-    margin: 0 10%;
+    width: 90%;
+    margin: 0 5%;
 }
 
 .title {
@@ -595,9 +599,8 @@ li{
         }
 
         img.portal {
-            width: 14em;
-            height: auto;
-            padding-top: 1em;
+            width:80%;
+            padding-top: 2em;
         }
 
         .modal__content {
