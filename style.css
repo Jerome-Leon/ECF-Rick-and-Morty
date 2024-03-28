@@ -107,9 +107,9 @@ header {
     flex-wrap: wrap;
     justify-content: center;
     gap: 3.5rem;
-    width: 80%;
-    margin: 0 10%;
-    padding: 1em 0;
+    width: 90%;
+    margin: 0 auto;
+    padding: 2em 0;
 }
 
 .switch__buttons #new12,
@@ -222,7 +222,7 @@ header {
     flex-wrap: wrap;
     gap: 3.5rem;
     justify-content: center;
-    width: 70%;
+    width: 60%;
     padding-bottom:11em;
 }
 
@@ -251,7 +251,7 @@ header {
     width: 280px;
     /* Largeur initiale */
     height: 250px;
-    background-color: #fffcde;
+    background-color: #d6d3ac;
     padding: 1rem 2rem;
     box-shadow: 0px 30px 20px 20px hsla(0, 0%, 2%, 0.486);
     border-radius: 0 0 1rem 1rem;
@@ -331,13 +331,15 @@ img {
 
 footer{
     background-color: #11afc8;
+    height: 19rem;
 }
 
 .bannerfooter {
     width: 100%;
-    height: 18rem;
-    background-image: url('./IMAGES/Rick-and-Morty_FOOTER.png');
-    background-size: 100%;
+    height: 19rem;
+    background-image: url('./IMAGES/Rick-and-Morty_FOOTER_mobile.png');
+    background-size: 80%;
+    margin: 2em 10%;
     background-repeat: no-repeat;
 }
 
@@ -480,8 +482,12 @@ li{
 
 @media screen and (max-width: 1720px) {
     .switch__buttons {
-        width: 70%;
-        margin: 0 25%;
+        width: 100%;
+        margin: 2em auto;
+    }
+
+    .card__container{
+        width: 90%;
     }
 
     header {
@@ -490,16 +496,12 @@ li{
     }
 
     .title {
+        padding-top: 2em;
         justify-content: space-evenly;
     }
 
-    img.portal {
-        width: 20em;
-        padding-top: 2em;
-    }
-
     .img-title {
-        width: 70%;
+        width: 60%;
         height: auto;
     }
 
@@ -559,7 +561,7 @@ li{
     @media screen and (max-width: 767px) {
 
         .switch__buttons {
-            gap: 1.3rem 1rem;
+            gap: 1.3rem 2rem;
             width: 90%;
             margin: 0 5%;
             padding-top: 4em;
@@ -594,17 +596,12 @@ li{
         
         .title-randomizer p {
             font-size: 3em;
-            padding-top: .1em;
         }
 
         img.img-title {
             width: 100%;
             height: auto;
-        }
-
-        img.portal {
-            width: 100%;
-            padding-top: 2em;
+            padding-top: .5em;
         }
 
         .modal__content {
@@ -631,6 +628,7 @@ li{
             background-color: #11afc8;
             display: flex;
             padding-top: 1em;
+            height: 8em;
         }
 
         .bannerfooter {
