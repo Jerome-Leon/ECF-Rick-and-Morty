@@ -26,13 +26,14 @@ font-family: 'Bellota Text', display;*/
 header {
     display: flex;
     flex-direction: row;
-    width: 75%;
-    margin: 2em 12.5%;
+    width: 1550px;
+    margin: 5em auto 2em auto;
 }
 
 .portal {
     width: 90%;
     margin: 0 5%;
+    border-radius: 1em;
 }
 
 .title {
@@ -41,7 +42,6 @@ header {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 2em;
 }
 
 .img-title {
@@ -109,7 +109,7 @@ header {
     gap: 3.5rem;
     width: 80%;
     margin: 0 10%;
-    padding: 2em 0;
+    padding: 1em 0;
 }
 
 .switch__buttons #new12,
@@ -126,7 +126,7 @@ header {
     background: radial-gradient(circle, #4BAFC6, #4BAFC6);
     border-radius: 0.5em;
     border: solid 3px #fff;
-    padding: 0.5em 0;
+    padding: 0.3em 0;
     transition: ease 1s;
     cursor: pointer;
 }
@@ -232,6 +232,15 @@ header {
     cursor: pointer;
 }
 
+.card__container {
+    
+}
+
+.card__article {
+    scroll-snap-align: start;
+}
+
+
 .card__img {
     width: 300px;
     border-radius: 1rem;
@@ -242,7 +251,7 @@ header {
     width: 280px;
     /* Largeur initiale */
     height: 250px;
-    background-color: #dbd69d;
+    background-color: #fffcde;
     padding: 1rem 2rem;
     box-shadow: 0px 30px 20px 20px hsla(0, 0%, 2%, 0.486);
     border-radius: 0 0 1rem 1rem;
@@ -471,7 +480,7 @@ li{
 
 @media screen and (max-width: 1720px) {
     .switch__buttons {
-        width: 50%;
+        width: 70%;
         margin: 0 25%;
     }
 
@@ -549,11 +558,6 @@ li{
 
     @media screen and (max-width: 767px) {
 
-        img .portal {
-            width: 100%;
-            margin: 0;
-        }
-
         .switch__buttons {
             gap: 1.3rem 1rem;
             width: 90%;
@@ -599,7 +603,7 @@ li{
         }
 
         img.portal {
-            width:80%;
+            width: 100%;
             padding-top: 2em;
         }
 
