@@ -222,7 +222,7 @@ header {
     flex-wrap: wrap;
     gap: 3.5rem;
     justify-content: center;
-    width: 60%;
+    width: 80%;
     padding-bottom:11em;
 }
 
@@ -528,11 +528,6 @@ li{
 
 
     @media screen and (max-width: 1150px) {
-
-        .card__container {
-            width: 100%;
-            gap: 3em 1em;
-        }
 
         .portal {
             max-width: 80%;
