@@ -231,15 +231,9 @@ header {
     overflow: hidden;
     cursor: pointer;
 }
-
-.card__container {
-    
-}
-
 .card__article {
     scroll-snap-align: start;
 }
-
 
 .card__img {
     width: 300px;
